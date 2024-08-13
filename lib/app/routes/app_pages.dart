@@ -2,6 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ss/app/modules/auth/login/controller/login_controller.dart';
 import 'package:ss/app/modules/auth/login/view/login_view.dart';
+import 'package:ss/app/modules/auth/signup/controller/signup_controller.dart';
+import 'package:ss/app/modules/auth/signup/view/signup_view.dart';
+import 'package:ss/app/modules/auth/verify_otp/verify_otp_controller.dart';
+import 'package:ss/app/modules/auth/verify_otp/verify_otp_view.dart';
 import 'package:ss/app/modules/common/upcoming_service/controller/upcoming_service_controller.dart';
 import 'package:ss/app/modules/common/upcoming_service/view/upcoming_service_view.dart';
 import 'package:ss/app/modules/dashboard/dashboard/controller/dashboard_controller.dart';
@@ -11,13 +15,16 @@ import 'package:ss/app/modules/home/customer/controller/customer_controller.dart
 import 'package:ss/app/modules/home/customer/view/add_customer_view.dart';
 import 'package:ss/app/modules/home/customer/view/customer_view.dart';
 import 'package:ss/app/modules/home/home/controller/home_controller.dart';
+import 'package:ss/app/modules/inquiry/controller/add_inquiry_controller.dart';
+import 'package:ss/app/modules/inquiry/controller/inquiry_controller.dart';
+import 'package:ss/app/modules/inquiry/view/add_inquiry.dart';
 
 part 'app_routes.dart';
 
 class AppPages {
   AppPages._();
 
-  static var INITIAL = Routes.DASHBOARD;
+  static var INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
@@ -25,6 +32,12 @@ class AppPages {
       page: () => const LoginView(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => LoginController());
+      }),
+    ), GetPage(
+      name: Routes.SIGN_UP,
+      page: () => const SignupView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => SignupController());
       }),
     ),
     GetPage(
@@ -34,6 +47,14 @@ class AppPages {
         Get.lazyPut(() => DashboardController());
         Get.lazyPut(() => HomeController());
         Get.lazyPut(() => CustomerController());
+        Get.lazyPut(() => InquiryController());
+      }),
+    ),
+    GetPage(
+      name: Routes.VERIFY_OTP,
+      page: () =>  VerificationCodeView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => VerificationCodeController());
       }),
     ),
     GetPage(
@@ -55,6 +76,12 @@ class AppPages {
       page: () => const AddCustomerView(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => AddCustomerController());
+      }),
+    ),GetPage(
+      name: Routes.ADD_INQUIRY,
+      page: () => const AddInquiry(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => AddInquiryController());
       }),
     ),
   ];

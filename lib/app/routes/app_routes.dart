@@ -8,6 +8,10 @@ abstract class Routes {
   static const UPCOMING_SERVICE = _Paths.UPCOMING_SERVICE;
   static const CUSTOMERS = _Paths.CUSTOMERS;
   static const ADD_CUSTOMER = _Paths.ADD_CUSTOMER;
+  static const INQUIRY = _Paths.INQUIRY;
+  static const ADD_INQUIRY = _Paths.ADD_INQUIRY;
+  static const SIGN_UP = _Paths.SIGN_UP;
+  static const VERIFY_OTP = _Paths.VERIFY_OTP;
 }
 
 abstract class _Paths {
@@ -15,8 +19,12 @@ abstract class _Paths {
 
   // ignore: constant_identifier_names
   static const LOGIN = '/login';
+  static const SIGN_UP = '/signUp';
+  static const VERIFY_OTP = '/verifyOtp';
   static const DASHBOARD = '/dashboard';
   static const UPCOMING_SERVICE = '/upcomingService';
   static const CUSTOMERS = '/customers';
   static const ADD_CUSTOMER = '/add_customer';
+  static const INQUIRY = '/inquiry';
+  static const ADD_INQUIRY = '/addInquiry';
 }

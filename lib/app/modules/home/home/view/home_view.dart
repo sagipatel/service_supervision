@@ -127,10 +127,11 @@ class HomeView extends GetWidget<DashboardController> {
                                 arguments: AppCommonKeys.EXPIRED_CONTRACT);
                           }),
                       const SizedBox(width: 16),
+
                       commonCard(
                           icon: PngResources.serviceIc,
                           title: "Service",
-                          subTitle: "Simply Efficient",
+                          subTitle: "Get the Service you Deserve:Let Us Help",
                           color: const Color(0xffE7FFE7),
                           onPress: () {
                             Get.toNamed(Routes.UPCOMING_SERVICE,

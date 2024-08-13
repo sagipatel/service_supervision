@@ -11,7 +11,7 @@ import 'package:ss/app/core/helper/widgets/custom_snack_toast.dart';
 import 'package:ss/app/core/service/web_services.dart';
 import 'package:ss/app/routes/app_pages.dart';
 
-class LoginController extends GetxController {
+class SignupController extends GetxController {
   var showPassword = false.obs;
   var isObSecure = true.obs;
   var rememberMe = false.obs;
@@ -22,26 +22,34 @@ class LoginController extends GetxController {
   }
 
   final GlobalKey<CommonTextFieldState> keyEmail =
-          GlobalKey<CommonTextFieldState>(),
-      keyPassword = GlobalKey<CommonTextFieldState>();
+  GlobalKey<CommonTextFieldState>(),
+      keyPassword = GlobalKey<CommonTextFieldState>(),
+      keyMobile = GlobalKey<CommonTextFieldState>(),
+      keyFullName = GlobalKey<CommonTextFieldState>()
+  ;
 
-  final userNameFocusNode = FocusNode(), passwordFocusNode = FocusNode();
+  final emailFocusNode = FocusNode(), passwordFocusNode = FocusNode(),fullNameFocusNode = FocusNode(),mobileFocusNode = FocusNode();
 
   TextEditingController emailController = TextEditingController(),
+  fullNameController = TextEditingController(),
+  mobileController = TextEditingController(),
       passwordController = TextEditingController();
-  loginApi() async {
+
+  signupApi() async {
     var body = {
       "password": passwordController.text,
-      "mobile_number": emailController.text
+      "mobile_number": emailController.text,
+      "full_name":fullNameController.text,
+      "email":emailController.text,
     };
     apiLoader(
         asyncCall: () => Webservice.postRequest(
-            uri: "${Global.login}",
+            uri: Global.register,
             body: body,
             hasBearer: false,
             onSuccess: (response) {
               hideAppLoader();
-              AppStorages.setAppLogin(true);
+
               // LoginUserModel loginUserModelData =
               // loginUserModelFromJson(response);
               //
@@ -69,7 +77,7 @@ class LoginController extends GetxController {
               // AppStorages.userName.value =
               //     AppStorages.userLoginRes.rhCustomerName ?? "";
 
-              Get.offAllNamed(Routes.DASHBOARD);
+              Get.offAllNamed(Routes.VERIFY_OTP);
             },
             onFailure: (res) {
               print(res);
@@ -82,4 +90,5 @@ class LoginController extends GetxController {
               );
             }));
   }
+
 }

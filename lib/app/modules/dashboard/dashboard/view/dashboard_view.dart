@@ -10,6 +10,8 @@ import 'package:ss/app/modules/home/customer/controller/customer_controller.dart
 import 'package:ss/app/modules/home/customer/view/customer_view.dart';
 import 'package:ss/app/modules/home/home/controller/home_controller.dart';
 import 'package:ss/app/modules/home/home/view/home_view.dart';
+import 'package:ss/app/modules/inquiry/controller/inquiry_controller.dart';
+import 'package:ss/app/modules/inquiry/view/inquiry_view.dart';
 
 class DashboardView extends GetWidget<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
@@ -30,7 +32,7 @@ class DashboardView extends GetWidget<DashboardController> {
                       ? HomeView()
                       : controller.selectedTab.value == "Customer"
                           ? CustomerView(showAppbar: false)
-                          : SizedBox.shrink()),
+                          : controller.selectedTab.value == "Inquiry" ? InquiryView(): SizedBox.shrink()),
                 ),
                 // Obx(
                 //       () => controller.selectedTab.value == "Cart"
@@ -119,6 +121,10 @@ class DashboardView extends GetWidget<DashboardController> {
             if (controller.selectedTab.value == "Customer") {
               CustomerController customerController = Get.find();
               customerController.onInit();
+            }
+            if (controller.selectedTab.value == "Inquiry") {
+              InquiryController inquiryController = Get.find();
+              inquiryController.onInit();
             }
             // if (controller.selectedTab.value == "Menu") {
             //   MenusController menusController = Get.find();

@@ -12,10 +12,11 @@ import 'package:ss/app/core/helper/widgets/common_text_fields.dart';
 import 'package:ss/app/core/helper/widgets/keyboard_avoider.dart';
 import 'package:ss/app/modules/auth/login/controller/login_controller.dart';
 import 'package:ss/app/modules/auth/login/view/login_view.dart';
+import 'package:ss/app/modules/auth/signup/controller/signup_controller.dart';
 import 'package:ss/app/routes/app_pages.dart';
 
-class LoginView extends GetWidget<LoginController> {
-  const LoginView({Key? key}) : super(key: key);
+class SignupView extends GetWidget<SignupController> {
+  const SignupView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,39 +31,56 @@ class LoginView extends GetWidget<LoginController> {
             autoScroll: true,
             child: Padding(
               padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
+              const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Welcome Back ",
-                        style: TextStyles.bold(
-                            fontSize: 28.sp, fontColor: secondaryColor),
-                        textAlign: TextAlign.center,
-                      ),
-                      Image.asset(
-                        PngResources.handIc,
-                        height: 26.h,
-                        width: 29.w,
-                      ),
-                    ],
+                  Text(
+                    "Create Account",
+                    style: TextStyles.bold(
+                        fontSize: 28.sp, fontColor: secondaryColor),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 12.h),
                   Text(
-                    "Enter your Mobile number and Password for\nSIGN IN.",
+                    "Enter your name,email,mobile and password for\nSIGN UP.",
                     style: TextStyles.normal(
                         fontSize: 16.0.sp, fontColor: secondaryColor),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 12.h),
                   CommonTextField(
+                    key: controller.keyFullName,
+                    controller: controller.fullNameController,
+                    validateTypes: ValidateTypes.name,
+                    errorMsg: "Full Name",
+                    textInputType: TextInputType.text,
+                    textInputAction: TextInputAction.next,
+                    hintText: "Full Name",
+                    labelText: "Full Name",
+
+                    focusNode: controller.fullNameFocusNode,
+                    focusNext: controller.emailFocusNode,
+                    onChange: (v) {},
+                  ),
+                  CommonTextField(
                     key: controller.keyEmail,
                     controller: controller.emailController,
-                    validateTypes: ValidateTypes.empty,
+                    validateTypes: ValidateTypes.email,
+                    errorMsg: "Email Address",
+                    textInputType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
+                    hintText: "Email Address",
+                    labelText: "Email Address",
+                    focusNode: controller.emailFocusNode,
+                    focusNext: controller.mobileFocusNode,
+                    onChange: (v) {},
+                  ),
+                  CommonTextField(
+                    key: controller.keyMobile,
+                    controller: controller.mobileController,
+                    validateTypes: ValidateTypes.mobile,
                     errorMsg: "Mobile",
                     textInputType: TextInputType.number,
                     textInputAction: TextInputAction.next,
@@ -72,12 +90,12 @@ class LoginView extends GetWidget<LoginController> {
                     inputFormat: [
                       FilteringTextInputFormatter.allow(RegExp("[0-9]"))
                     ],
-                    focusNode: controller.userNameFocusNode,
+                    focusNode: controller.mobileFocusNode,
                     focusNext: controller.passwordFocusNode,
                     onChange: (v) {},
                   ),
                   Obx(
-                    () => CommonTextField(
+                        () => CommonTextField(
                       key: controller.keyPassword,
                       controller: controller.passwordController,
                       validateTypes: ValidateTypes.empty,
@@ -90,7 +108,7 @@ class LoginView extends GetWidget<LoginController> {
                       suffixIcon: InkWell(
                           onTap: () {
                             controller.isObSecure.value =
-                                !controller.isObSecure.value;
+                            !controller.isObSecure.value;
                           },
                           child: SvgPicture.asset(controller.isObSecure.value
                               ? SvgResources.eyeIc
@@ -101,34 +119,20 @@ class LoginView extends GetWidget<LoginController> {
                     ),
                   ),
                   SizedBox(height: 18.h),
-                  Row(
-                    children: [
-                      Obx(() => InkWell(
-                          onTap: () {
-                            controller.rememberMe.value =
-                                !controller.rememberMe.value;
-                          },
-                          child: SvgPicture.asset(controller.rememberMe.value
-                              ? SvgResources.checkBoxIc
-                              : SvgResources.unCheckIc))),
-                      Expanded(
-                          child: Text(
-                        " Remember Me",
-                        style: TextStyles.normal(
-                            fontSize: 14.0.sp, fontColor: blackColor),
-                      )),
-                      Text(
-                        "Forgot password?",
-                        style: TextStyles.normal(
-                            fontSize: 14.0.sp, fontColor: blackColor),
-                      )
-                    ],
-                  ),
+                  
                   CommonButton.normalButton(
-                      title: "Sign In",
+                      title: "Sign Up",
                       onTap: () {
                         var isValid = true;
+                        if (controller.keyFullName.currentState!
+                            .checkValidation(false)) {
+                          isValid = false;
+                        }
                         if (controller.keyEmail.currentState!
+                            .checkValidation(false)) {
+                          isValid = false;
+                        }
+                        if (controller.keyMobile.currentState!
                             .checkValidation(false)) {
                           isValid = false;
                         }
@@ -137,23 +141,25 @@ class LoginView extends GetWidget<LoginController> {
                           isValid = false;
                         }
                         if (isValid) {
-                         controller.loginApi();
+                          controller.signupApi();
                         }
                       },
                       padding: const EdgeInsets.only(top: 26, bottom: 16)),
                   InkWell(
-                    onTap: () {Get.toNamed(Routes.SIGN_UP);},
+                    onTap: () {
+                      Get.back();
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "Don’t have account? ",
+                          "Already have an account? ",
                           style: TextStyles.normal(
                               fontSize: 16.0.sp, fontColor: blackColor),
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          "Sign Up",
+                          "Sign In",
                           style: TextStyles.bold(
                               fontSize: 16.0.sp, fontColor: secondaryColor),
                           textAlign: TextAlign.center,

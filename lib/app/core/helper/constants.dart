@@ -1,6 +1,8 @@
 class Global {
-  static const baseURL = ""; // live url
+  static const baseURL = "https://worthy-model-shad.ngrok-free.app/"; // live url
   static const getOtp = "auth/getOtp?email=";
+  static const login = "auth/login";
+  static const register = "auth/register";
 }
 
 class SessionKeys {
