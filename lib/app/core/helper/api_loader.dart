@@ -28,7 +28,7 @@ apiLoader({
                   child:  SizedBox(
                           height: 80,
                           width: 80,
-                          child: Image.asset("assets/png/loader.gif"))),
+                          child: Image.asset("assets/images/png/loader.gif"))),
             ),
           ),
         ),

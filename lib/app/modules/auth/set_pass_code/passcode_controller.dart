@@ -1,24 +1,26 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:ss/app/core/helper/api_loader.dart';
 import 'package:ss/app/core/helper/constants.dart';
-import 'package:ss/app/core/helper/storages.dart';
 import 'package:ss/app/core/helper/widgets/common_text_fields.dart';
 import 'package:ss/app/core/helper/widgets/custom_snack_toast.dart';
 import 'package:ss/app/core/service/web_services.dart';
+import 'package:ss/app/modules/auth/set_pass_code/model/set_pass_code.dart';
 import 'package:ss/app/modules/auth/signup/model/signup.dart';
 import 'package:ss/app/routes/app_pages.dart';
 
-class SignupController extends GetxController {
+class PasscodeController extends GetxController {
   var showPassword = false.obs;
   var isObSecure = true.obs;
   var rememberMe = false.obs;
+  var forSetPasscode = true.obs;
+  TextEditingController passCodeController = TextEditingController();
   @override
   void onInit() {
-    print("dsadasda");
+if(Get.arguments != null){
+  forSetPasscode.value = Get.arguments;
+}
     super.onInit();
   }
 
@@ -32,34 +34,32 @@ class SignupController extends GetxController {
   final emailFocusNode = FocusNode(), passwordFocusNode = FocusNode(),fullNameFocusNode = FocusNode(),mobileFocusNode = FocusNode();
 
   TextEditingController emailController = TextEditingController(),
-  fullNameController = TextEditingController(),
-  mobileController = TextEditingController(),
+      fullNameController = TextEditingController(),
+      mobileController = TextEditingController(),
       passwordController = TextEditingController();
 
-  signupApi() async {
+  setPassCodeApi() async {
     var body = {
-      "password": passwordController.text,
-      "mobile_number": emailController.text,
-      "full_name":fullNameController.text,
-      "email":emailController.text,
+      "pass_code": passCodeController.text,
+      "userId":AppConst.ID,
+      "token":AppConst.TOKEN
     };
     apiLoader(
         asyncCall: () => Webservice.postRequest(
-            uri: Global.register,
+            uri: Global.setPasscode,
             body: body,
             hasBearer: false,
             onSuccess: (response) {
               hideAppLoader();
-              SignupModel signUp = signupModelFromJson(response);
-
-
-                AppConst.ID = signUp.data!.id;
-                AppConst.TOKEN = signUp.data!.token ?? "";
-                userNavigate(signUp.data!.stage!, message: signUp.message);
-
+              SetPasscodeModel passcodeModel = setPasscodeModelFromJson(response);
+              AppConst.ID = passcodeModel.data!.id;
+              AppConst.TOKEN = passcodeModel.data!.token;
+              userNavigate(passcodeModel.data!.stage!, message: passcodeModel.message);
             },
             onFailure: (res) {
+              print(res);
               hideAppLoader();
+
               getSnackToast(
                 title: "Error",
                 message: res['message'],

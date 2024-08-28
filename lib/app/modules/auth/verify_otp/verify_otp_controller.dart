@@ -6,6 +6,8 @@ import 'package:ss/app/core/helper/api_loader.dart';
 import 'package:ss/app/core/helper/constants.dart';
 import 'package:ss/app/core/helper/widgets/custom_snack_toast.dart';
 import 'package:ss/app/core/service/web_services.dart';
+import 'package:ss/app/modules/auth/signup/model/signup.dart';
+import 'package:ss/app/modules/auth/verify_otp/model/verify_otp.dart';
 import 'package:ss/app/routes/app_pages.dart';
 
 
@@ -18,14 +20,12 @@ class VerificationCodeController extends GetxController {
   var tempToken = "";
 
   var previousScreen = "";
-
+  SignupModel signupModel = SignupModel();
   @override
   void onInit() {
-    if (Get.arguments != null) {
-      email.value = Get.arguments[0];
-      password = Get.arguments[1];
-      tempToken = Get.arguments[2];
-    }
+    // if (Get.arguments != null) {
+    //   signupModel = Get.arguments;
+    // }
     timerStart.value = 120;
     startTimer();
     previousScreen = Get.previousRoute;
@@ -78,43 +78,33 @@ class VerificationCodeController extends GetxController {
     }
   }
 
-  // resendCodeApi() async {
-  //   var body = {"email": email.value};
-  //   Webservice.postRequest(
-  //       uri: Global.sendForgotPassword,
-  //       body: body,
-  //       hasBearer: false,
-  //       onSuccess: (response) {
-  //         timerStart.value = 120;
-  //         startTimer();
-  //       },
-  //       onFailure: (res) {
-  //         hideAppLoader();
-  //       });
-  // }
+  verifyOtpApi() async {
+    var body = {
+    "userId":AppConst.ID,
+      "otp":otpController.text,
+      "token":AppConst.TOKEN,
+    };
+    apiLoader(
+        asyncCall: () => Webservice.postRequest(
+            uri: Global.verifyOtp,
+            body: body,
+            hasBearer: false,
+            onSuccess: (response) {
+              hideAppLoader();
+              VerifyOtpModel verifyOtpData = verifyOtpModelFromJson(response);
+                AppConst.ID = verifyOtpData.data!.id;
+                AppConst.TOKEN = verifyOtpData.data!.token;
+                userNavigate(verifyOtpData.data!.stage!, message: verifyOtpData.message);
 
-  // verifyOtpApi() async {
-  //   var body = {"email": email.value, "otp": otpController.text};
-  //   apiLoader(
-  //     asyncCall: () => Webservice.postRequest(
-  //       uri: Global.validatePasswordOtp,
-  //       body: body,
-  //       hasBearer: false,
-  //       onSuccess: (response) {
-  //         hideAppLoader();
-  //         var res = jsonDecode(response);
-  //         // Get.toNamed(Routes.createNewPassView,
-  //         //     arguments: [email.value, res['token']]);
-  //       },
-  //       onFailure: (res) {
-  //         hideAppLoader();
-  //         getSnackToast(
-  //           title: "Error",
-  //           message: res['message'],
-  //           backgroundColor: Colors.red,
-  //         );
-  //       },
-  //     ),
-  //   );
-  // }
+            },
+            onFailure: (res) {
+              hideAppLoader();
+              getSnackToast(
+                title: "Error",
+                message: res['message'],
+                backgroundColor: Colors.red,
+              );
+            }));
+  }
+
 }

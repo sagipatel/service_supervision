@@ -12,6 +12,8 @@ abstract class Routes {
   static const ADD_INQUIRY = _Paths.ADD_INQUIRY;
   static const SIGN_UP = _Paths.SIGN_UP;
   static const VERIFY_OTP = _Paths.VERIFY_OTP;
+  static const PASSCODE = _Paths.PASSCODE;
+  static const USER_DETAILS = _Paths.USER_DETAILS;
 }
 
 abstract class _Paths {
@@ -27,4 +29,6 @@ abstract class _Paths {
   static const ADD_CUSTOMER = '/add_customer';
   static const INQUIRY = '/inquiry';
   static const ADD_INQUIRY = '/addInquiry';
+  static const PASSCODE = '/passcode';
+  static const USER_DETAILS = '/user_details';
 }

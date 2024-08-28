@@ -2,8 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ss/app/modules/auth/login/controller/login_controller.dart';
 import 'package:ss/app/modules/auth/login/view/login_view.dart';
+import 'package:ss/app/modules/auth/set_pass_code/passcode_controller.dart';
+import 'package:ss/app/modules/auth/set_pass_code/passcode_view.dart';
 import 'package:ss/app/modules/auth/signup/controller/signup_controller.dart';
 import 'package:ss/app/modules/auth/signup/view/signup_view.dart';
+import 'package:ss/app/modules/auth/user_details/controller/user_detail_controller.dart';
+import 'package:ss/app/modules/auth/user_details/view/user_detail_view.dart';
 import 'package:ss/app/modules/auth/verify_otp/verify_otp_controller.dart';
 import 'package:ss/app/modules/auth/verify_otp/verify_otp_view.dart';
 import 'package:ss/app/modules/common/upcoming_service/controller/upcoming_service_controller.dart';
@@ -77,11 +81,25 @@ class AppPages {
       binding: BindingsBuilder(() {
         Get.lazyPut(() => AddCustomerController());
       }),
-    ),GetPage(
+    ),
+    GetPage(
       name: Routes.ADD_INQUIRY,
       page: () => const AddInquiry(),
       binding: BindingsBuilder(() {
         Get.lazyPut(() => AddInquiryController());
+      }),
+    ),GetPage(
+      name: Routes.PASSCODE,
+      page: () => const PasscodeView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => PasscodeController());
+      }),
+    ),
+    GetPage(
+      name: Routes.USER_DETAILS,
+      page: () => const UserDetailView(),
+      binding: BindingsBuilder(() {
+        Get.lazyPut(() => UserDetailController());
       }),
     ),
   ];

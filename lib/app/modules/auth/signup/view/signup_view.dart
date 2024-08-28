@@ -142,6 +142,7 @@ class SignupView extends GetWidget<SignupController> {
                         }
                         if (isValid) {
                           controller.signupApi();
+                          // Get.toNamed(Routes.PASSCODE);
                         }
                       },
                       padding: const EdgeInsets.only(top: 26, bottom: 16)),

@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import 'package:ss/app/core/helper/colors.dart';
 import 'package:ss/app/core/helper/text_style.dart';
+import 'package:ss/app/core/helper/utilites.dart';
 import 'package:ss/app/core/helper/widgets/common_buttons.dart';
+import 'package:ss/app/core/helper/widgets/custom_snack_toast.dart';
 import 'package:ss/app/core/helper/widgets/keyboard_avoider.dart';
 import 'package:ss/app/modules/auth/verify_otp/verify_otp_controller.dart';
 
@@ -14,7 +16,7 @@ class VerificationCodeView extends GetWidget<VerificationCodeController> {
 
   @override
   Widget build(BuildContext context) {
-    print(controller.formatHHMMSS(controller.timerStart.value));
+
     return Scaffold(
       extendBody: true,
       resizeToAvoidBottomInset: false,
@@ -85,22 +87,21 @@ class VerificationCodeView extends GetWidget<VerificationCodeController> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   title: "Verify account",
                   onTap: () {
-                    // Utilities.hideKeyBoard();
-                    // Get.closeAllSnackbars();
-                    // if (controller.otpController.text.isEmpty ||
-                    //     controller.otpController.text.length != 4) {
-                    //   getSnackToast(
-                    //       title: "Error",
-                    //       message: controller.otpController.text.isNotEmpty &&
-                    //               controller.otpController.text.length != 4
-                    //           ? "Please enter valid otp"
-                    //           : "Please enter otp",
-                    //       backgroundColor: Colors.red,
-                    //       colorText: themeWhiteColor);
-                    // } else {
-                    //   controller.verifyOtpApi();
-                    //
-                    // }
+                    Utilities.hideKeyBoard();
+                    Get.closeAllSnackbars();
+                    if (controller.otpController.text.isEmpty ||
+                        controller.otpController.text.length != 4) {
+                      getSnackToast(
+                          title: "Error",
+                          message: controller.otpController.text.isNotEmpty &&
+                                  controller.otpController.text.length != 4
+                              ? "Please enter valid otp"
+                              : "Please enter otp",
+                          backgroundColor: Colors.red,
+                          colorText: whiteColor);
+                    } else {
+                      controller.verifyOtpApi();
+                    }
                   },
                 ),
                 Obx(
